@@ -122,7 +122,7 @@ public class Example extends Application {
     //Function to read in the cthead data set
     public void ReadData() throws IOException {
         //File name is hardcoded here - much nicer to have a dialog to select it and capture the size from the user
-        File file = new File("C:\\Users\\loque\\OneDrive - Swansea University\\CS-255\\src\\CThead");
+        File file = new File(".\\src\\CThead");
         //Read the data quickly via a buffer (in C++ you can just do a single fread - I couldn't find if there is an equivalent in Java)
         DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 

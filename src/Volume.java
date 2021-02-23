@@ -10,6 +10,12 @@ public class Volume {
     int CT_y_axis = 256;
     int CT_z_axis = 113;
 
+    public enum Slice {
+        TOP,
+        DOWN,
+        SIDE
+    }
+
     public Volume(short[][][] cthead, short min, short max) {
         this.cthead = cthead;
         this.min = min;
@@ -17,7 +23,7 @@ public class Volume {
     }
 
     public void slices(WritableImage image) {
-        int w = (int) image.getWidth(); 
+        int w = (int) image.getWidth();
         int h = (int) image.getHeight();
         PixelWriter image_writer = image.getPixelWriter();
         double col;
@@ -37,8 +43,16 @@ public class Volume {
 
     }
 
-    public void sliders() {
-
+    public void sliders(Slice s) {
+        switch (s) {
+            case TOP:
+                break;
+            case DOWN:
+                break;
+            case SIDE:
+                break;
+        }
     }
 }
+
 
