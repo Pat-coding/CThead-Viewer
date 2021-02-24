@@ -7,10 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelWriter;
@@ -105,6 +103,7 @@ public class Example extends Application {
 
                     }
                 });
+
         FlowPane root = new FlowPane();
         root.setVgap(8);
         root.setHgap(4);
