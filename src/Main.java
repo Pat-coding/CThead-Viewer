@@ -12,7 +12,6 @@ public class Main extends Application {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("CThead Viewer");

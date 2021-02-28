@@ -1,5 +1,7 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -43,6 +45,10 @@ public class AssetController implements Initializable {
     private Slider frontSlider;
     @FXML
     private Button sliceButton;
+    @FXML
+    private Button volRend;
+    @FXML
+    private Slider opSlider;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,6 +66,9 @@ public class AssetController implements Initializable {
         frontImgView = new ImageView(front_image);
         displaySliders();
         displaySlices(topImgView, sideImgView, frontImgView);
+        displaySliceButton();
+        volRendButton();
+        opSlider();
     }
 
     public void setVolume(Volume v) {
@@ -105,6 +114,42 @@ public class AssetController implements Initializable {
 
                     }
                 });
+    }
+
+    public void displaySliceButton() {
+        sliceButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                v.slices(top_image, Volume.Axis.Z, 76);
+                v.slices(front_image, Volume.Axis.X, 76);
+                v.slices(side_image, Volume.Axis.Y, 76);
+            }
+        });
+    }
+
+    public void volRendButton() {
+        volRend.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                v.volRend(top_image, Volume.Axis.Z, 0.12);
+                v.volRend(front_image, Volume.Axis.X, 0.12);
+                v.volRend(side_image, Volume.Axis.Y, 0.12);
+            }
+        });
+    }
+
+    public void opSlider() {
+        opSlider.valueProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number>
+                                                observable, Number oldValue, Number newValue) {
+                        v.volRend(top_image, Volume.Axis.Z, newValue.doubleValue()/100);
+                        //v.volRend(front_image, Volume.Axis.X, newValue.doubleValue()/100);
+                        //v.volRend(side_image, Volume.Axis.Y, newValue.doubleValue()/100);
+                    }
+                }
+        );
     }
 
 }
