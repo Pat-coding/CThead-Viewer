@@ -94,33 +94,30 @@ public class Volume {
                 double[] colAccum = {0,0,0};
                 double transAccum = 1;
                 //ray cast loop
-                for (int k = 0; k < CT_z_axis; k++) {
+                for (int k = 0; k < a.value; k++) {
                     switch (a) {
                         case Z:
                             hu = ctHead[k][j][i];
                             TF z_val = TF.lookup(hu);
                             colAccum = volRendCalc(z_val, colAccum, transAccum, newVal);
                             transAccum = transAccum * (1 - z_val.opVal);
-                            image_writer.setColor(i, j, Color.color(colAccum[0], colAccum[1], colAccum[2], 1.0));
                             break;
                         case Y:
                             hu = ctHead[j][i][k];
                             TF y_val = TF.lookup(hu);
                             colAccum = volRendCalc(y_val, colAccum, transAccum, newVal);
                             transAccum = transAccum * (1 - y_val.opVal);
-                            image_writer.setColor(i, j, Color.color(colAccum[0], colAccum[1], colAccum[2], 1.0));
                             break;
                         case X:
                             hu = ctHead[j][k][i];
                             TF x_val = TF.lookup(hu);
                             colAccum = volRendCalc(x_val, colAccum, transAccum, newVal);
                             transAccum = transAccum * (1 - x_val.opVal);
-                            image_writer.setColor(i, j, Color.color(colAccum[0], colAccum[1], colAccum[2], 1.0));
                             break;
                     }
 
                 }
-
+                image_writer.setColor(i, j, Color.color(colAccum[0], colAccum[1], colAccum[2], 1.0));
             }
         }
 
@@ -156,13 +153,20 @@ public class Volume {
                 colAccum[2] = 1;
             }
         }
+
         return new double[]{colAccum[0], colAccum[1], colAccum[2]};
     }
 
     public enum Axis {
-        Z,
-        Y,
-        X
+        Z(CT_z_axis),
+        Y(CT_y_axis),
+        X(CT_x_axis);
+
+        public final int value;
+
+        Axis(int value) {
+            this.value = value;
+        }
     }
 
     public enum TF {

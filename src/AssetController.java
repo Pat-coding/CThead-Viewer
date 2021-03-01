@@ -145,8 +145,8 @@ public class AssetController implements Initializable {
                     public void changed(ObservableValue<? extends Number>
                                                 observable, Number oldValue, Number newValue) {
                         v.volRend(top_image, Volume.Axis.Z, newValue.doubleValue()/100);
-                        //v.volRend(front_image, Volume.Axis.X, newValue.doubleValue()/100);
-                        //v.volRend(side_image, Volume.Axis.Y, newValue.doubleValue()/100);
+                        v.volRend(front_image, Volume.Axis.X, newValue.doubleValue()/100);
+                        v.volRend(side_image, Volume.Axis.Y, newValue.doubleValue()/100);
                     }
                 }
         );

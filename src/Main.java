@@ -20,6 +20,7 @@ public class Main extends Application {
         } catch (IOException e) {
             System.out.println("File not Found");
         }
+
         try {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("AssetController.fxml").openStream());
