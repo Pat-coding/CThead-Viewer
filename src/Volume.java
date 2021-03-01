@@ -4,6 +4,9 @@ import javafx.scene.paint.Color;
 import java.io.*;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class Volume {
     public static final int CT_x_axis = 256;
     public static final int CT_y_axis = 256;
@@ -14,6 +17,11 @@ public class Volume {
     private short min;
     private short max;
 
+    /**
+     *
+     * @param filename
+     * @throws IOException
+     */
     public Volume(String filename) throws IOException {
         File file = new File(".\\src\\CThead");
         //Read the data quickly via a buffer (in C++ you can just do a single fread - I couldn't find if there is an equivalent in Java)
@@ -82,6 +90,12 @@ public class Volume {
         }
     }
 
+    /**
+     *
+     * @param image
+     * @param a
+     * @param newVal
+     */
     public void volRend(WritableImage image, Axis a, double newVal) {
         int w = (int) image.getWidth();
         int h = (int) image.getHeight();
@@ -100,19 +114,32 @@ public class Volume {
                             hu = ctHead[k][j][i];
                             TF z_val = TF.lookup(hu);
                             colAccum = volRendCalc(z_val, colAccum, transAccum, newVal);
-                            transAccum = transAccum * (1 - z_val.opVal);
+                            if (newVal != 0.12 && z_val.equals(TF.R2)) {
+                                transAccum = transAccum * (1 - newVal);
+                            } else {
+                                transAccum = transAccum * (1 - z_val.opVal);
+                            }
+
                             break;
                         case Y:
                             hu = ctHead[j][i][k];
                             TF y_val = TF.lookup(hu);
                             colAccum = volRendCalc(y_val, colAccum, transAccum, newVal);
-                            transAccum = transAccum * (1 - y_val.opVal);
+                            if (newVal != 0.12 && y_val.equals(TF.R2)) {
+                                transAccum = transAccum * (1 - newVal);
+                            } else {
+                                transAccum = transAccum * (1 - y_val.opVal);
+                            }
                             break;
                         case X:
                             hu = ctHead[j][k][i];
                             TF x_val = TF.lookup(hu);
                             colAccum = volRendCalc(x_val, colAccum, transAccum, newVal);
-                            transAccum = transAccum * (1 - x_val.opVal);
+                            if (newVal != 0.12 && x_val.equals(TF.R2)) {
+                                transAccum = transAccum * (1 - newVal);
+                            } else {
+                                transAccum = transAccum * (1 - x_val.opVal);
+                            }
                             break;
                     }
 
@@ -124,6 +151,14 @@ public class Volume {
 
     }
 
+    /**
+     *
+     * @param tf
+     * @param colAccum
+     * @param transAccum
+     * @param newVal
+     * @return
+     */
     public double[] volRendCalc(TF tf, double[] colAccum, double transAccum, double newVal) {
         if (newVal != 0.12 && tf.equals(TF.R2)) {
             colAccum[0] += transAccum * newVal * tf.rVal;
@@ -157,6 +192,9 @@ public class Volume {
         return new double[]{colAccum[0], colAccum[1], colAccum[2]};
     }
 
+    /**
+     *
+     */
     public enum Axis {
         Z(CT_z_axis),
         Y(CT_y_axis),
@@ -169,6 +207,9 @@ public class Volume {
         }
     }
 
+    /**
+     *
+     */
     public enum TF {
         R1((short) - 1117, (short) -299, 0.0, 0.0, 0.0, 0.0),
         R2((short) - 300, (short) 49, 1.0, 0.79, 0.6, 0.12),//skin hu
@@ -191,6 +232,11 @@ public class Volume {
             this.opVal = opVal;
         }
 
+        /**
+         *
+         * @param v
+         * @return
+         */
         public static TF lookup(final short v) {
             return Arrays.stream(values())
                     .filter(r -> v >= r.min && v <= r.max)

@@ -9,7 +9,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -82,10 +81,6 @@ public class AssetController implements Initializable {
         topView.getChildren().add(top);
         sideView.getChildren().add(side);
         frontView.getChildren().add(front);
-
-    }
-
-    public void redrawSlices() {
 
     }
 
